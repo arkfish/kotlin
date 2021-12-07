@@ -8,4 +8,4 @@ fun File.readAsList(): List<String> {
     return t
 }
 
-val f = File("parser/parser-input.ktp")
+val f = File("parser/parser-input.txt")
