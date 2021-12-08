@@ -1,2 +1,3 @@
-something = 1
-something2 = "1"
+[ vdec int something1 1 ]
+[ vdec str something2 ("among us") ]
+[ cdec bool something3 true ]
