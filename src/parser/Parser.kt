@@ -6,8 +6,9 @@ import java.io.File
 class Parser {
     private lateinit var parsedFile: ParsedFile
 
-    fun interpretLine(line: String) {
+    fun interpretLine(fullLine: String) {
         val lineTree: MutableMap<String, Any> = mutableMapOf()
+        val line = fullLine.split(Regex("(//.*)"))[0] // filters out all of the comments
 
         if (!line.startsWith('[') && line.endsWith(']'))
             println("error when compiling line:\ncode must be between brackets: '[]' ")
