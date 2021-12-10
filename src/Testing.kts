@@ -1,4 +1,4 @@
-import java.io.File
+import parser.Parser
 
 //fun File.readAsList(): List<String> {
 //    val t = mutableListOf<String>()
@@ -9,5 +9,5 @@ import java.io.File
 //}
 
 
-// TODO: 12/7/2021 make this pass in the input to the parser 
-val f = File("parser/basic-input.txt")
+// TODO: 12/7/2021 make this pass in the input to the parser
+Parser().parseFile("parser/basic-input.txt")
