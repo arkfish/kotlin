@@ -1,12 +1,15 @@
 package parser
 
+import parser.dataholder.Variable
+import parser.token.DT
+import parser.token.TK
 import java.io.File
 
 // TODO: 12/7/2021 make it at least be able to parse singular lines and compile to a map, then display the output
 class Parser {
     private lateinit var parsedFile: ParsedFile
 
-    fun interpretLine(fullLine: String) {
+    private fun interpretLine(fullLine: String) {
         val lineTree: MutableMap<String, Any> = mutableMapOf()
         val line = fullLine.split(Regex("(//.*)"))[0] // filters out all of the comments
 
@@ -19,20 +22,31 @@ class Parser {
                 "cdec"   -> TK.CONSTANT
                 else     -> TK.NONE
             }
-            lineTree["token"] = token
-            val datatype: TK = when(split[2]) {
-                "int"  -> TK.DT_INT
-                "bool" -> TK.DT_BOOL
-                "str"  -> TK.DT_STR
-                else   -> TK.DT_NULL
+            val datatype: DT = when(split[2]) {
+                "int"  -> DT.INT
+                "bool" -> DT.BOOL
+                "str"  -> DT.STR
+                else   -> DT.NULL
             }
-            lineTree["datatype"] = datatype
-            lineTree["key"] = split[2]
-            if (datatype == TK.DT_STR) lineTree["value"] = split[3].substring(split[3].indexOf("(\""), split[3].indexOf("\")"))
+
+            if (token == TK.CONSTANT || token == TK.VARIABLE) {
+                // if the operation is variable declaration
+                val variable = Variable(datatype, split[2], null, token == TK.CONSTANT)
+                lineTree["token"] = token
+                variable.value = when(datatype) {
+                    DT.STR  -> split[3].substring(split[3].indexOf("(\""), split[3].indexOf("\")"))
+                    DT.INT  -> split[3].toInt()
+                    DT.BOOL -> split[3].toBoolean()
+                    DT.NULL -> null
+                }
+
+                println(variable.toString())
+            }
         }
     }
 
-    fun parseFile(f: File) {
-        
+    fun parseFile(pathname: String) {
+        val f = File(pathname)
+        for(line in f.readLines()) interpretLine(line)
     }
 }
