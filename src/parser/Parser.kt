@@ -18,9 +18,9 @@ class Parser {
         else {
             val split: List<String> = line.split(Regex("\\s.")) // splits between any whitespaces excluding newlines (\n)
             val token: TK = when(split[1]) {
-                "vdec"   -> TK.VARIABLE
-                "cdec"   -> TK.CONSTANT
-                else     -> TK.NONE
+                "vdec" -> TK.VARIABLE
+                "cdec" -> TK.CONSTANT
+                else   -> TK.NONE
             }
             val datatype: DT = when(split[2]) {
                 "int"  -> DT.INT
